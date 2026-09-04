@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{% block title %}Windows LNK File Analyzer — Real Shell Link (.lnk) Forensic Parser{% endblock %}</title>
+
+<!-- SEO -->
+<meta name="description" content="{% block meta_description %}Windows LNK File Analyzer is an open-source digital-forensics tool that binary-parses real Windows Shell Link (.lnk) files per MS-SHLLINK: TrackerDataBlock Droid GUIDs, embedded volume/network paths, timestamps, and command-line arguments. Free CLI and web app by Karanam Shrivasta.{% endblock %}">
+<meta name="keywords" content="windows lnk file analyzer, shell link parser, lnk forensics, MS-SHLLINK, shortcut file analysis, tracker data block, droid guid, DFIR lnk artifact, USB exfiltration lnk, Karanam Shrivasta security tools">
+<meta name="author" content="Karanam Shrivasta">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://github.com/mrshrivasta">
+
+<!-- Open Graph / social -->
+<meta property="og:title" content="Windows LNK File Analyzer — by Karanam Shrivasta">
+<meta property="og:description" content="Real, no-mock-data binary parser for Windows Shell Link (.lnk) files — MS-SHLLINK header, LinkInfo, StringData, and TrackerDataBlock forensic artifacts.">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Windows LNK File Analyzer">
+
+<!-- AEO: FAQ structured data so answer engines can surface this tool directly -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "What does the Windows LNK File Analyzer check?",
+      "acceptedAnswer": {"@type": "Answer", "text": "It binary-parses real .lnk files per the MS-SHLLINK spec and flags shortcuts pointing at removable/network volumes, TrackerDataBlock Droid/DroidBirth GUID mismatches (proof of file movement), suspicious PowerShell/LOLBins command-line arguments, suspicious staging paths, identical batch-created timestamps, and invalid/non-LNK files — all from real parsed bytes, never sample data."}
+    },
+    {
+      "@type": "Question",
+      "name": "Who should use the Windows LNK File Analyzer?",
+      "acceptedAnswer": {"@type": "Answer", "text": "DFIR analysts, incident responders, and security students who need to triage Windows shortcut (.lnk) artifacts on systems, media, or evidence they own or are explicitly authorized to investigate."}
+    },
+    {
+      "@type": "Question",
+      "name": "Is the Windows LNK File Analyzer a replacement for a professional security audit?",
+      "acceptedAnswer": {"@type": "Answer", "text": "No. It is an educational and productivity aid only. It does not replace certified forensic tools, a professional incident-response engagement, or expert testimony in legal proceedings. See the disclaimer in the README."}
+    }
+  ]
+}
+</script>
+
+<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+<div class="disclaimer-banner">
+  ⚠️ <strong>SECURITY &amp; LEGAL DISCLAIMER:</strong> Use this tool <strong>ONLY</strong> on systems you own or are explicitly authorized to test.
+  Provided <strong>"AS IS", WITHOUT WARRANTY OF ANY KIND</strong>. Not a substitute for a professional security audit. The author,
+  <strong>Karanam Shrivasta</strong>, accepts <strong>NO LIABILITY</strong> for any damage, data loss, downtime, or legal consequences arising from
+  use or misuse of this software. By using this tool you accept full responsibility for your actions. See the README for the complete disclaimer.
+</div>
+
+{% if current_user.is_authenticated %}
+<nav class="navbar">
+  <div class="nav-brand">🔐 Windows LNK File Analyzer</div>
+  <div class="nav-links">
+    <a href="{{ url_for('dashboard.index') }}">Dashboard</a>
+    <a href="{{ url_for('logs.index') }}">Logs</a>
+    <a href="{{ url_for('alerts.index') }}">Alerts</a>
+    <a href="{{ url_for('incidents.index') }}">Incidents</a>
+    <a href="{{ url_for('analytics.index') }}">Analytics</a>
+    <a href="{{ url_for('reports.index') }}">Reports</a>
+    <a href="{{ url_for('settings.index') }}">Settings</a>
+    <a href="{{ url_for('auth.logout') }}">Logout ({{ current_user.username }})</a>
+  </div>
+</nav>
+{% endif %}
+
+<main class="container">
+  {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+      <div class="flash-container">
+      {% for category, message in messages %}
+        <div class="flash flash-{{ category }}">{{ message }}</div>
+      {% endfor %}
+      </div>
+    {% endif %}
+  {% endwith %}
+
+  {% block content %}{% endblock %}
+</main>
+
+<footer class="watermark-footer">
+  <p>
+    Windows LNK File Analyzer &copy; {{ 2026 }} — Developed by <strong>Karanam Shrivasta</strong>
+    &middot; <a href="{{ github_url }}" target="_blank" rel="noopener">GitHub</a>
+    &middot; <a href="{{ linkedin_url }}" target="_blank" rel="noopener">LinkedIn</a>
+  </p>
+  <p class="footer-disclaimer">For authorized security auditing and educational use only. No warranty. Use at your own risk.</p>
+</footer>
+
+{% block scripts %}{% endblock %}
+</body>
+</html>
